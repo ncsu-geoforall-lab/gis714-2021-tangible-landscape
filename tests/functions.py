@@ -4,10 +4,10 @@
 Test for Python functions in files
 """
 
-import unittest
 import os
 import shutil
 import subprocess
+import unittest
 
 
 def is_python_file(path):

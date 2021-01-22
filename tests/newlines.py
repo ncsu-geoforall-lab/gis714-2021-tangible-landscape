@@ -4,8 +4,8 @@
 Test for required internal structure of Python files
 """
 
-import unittest
 import os
+import unittest
 
 
 def is_tested_file(path):

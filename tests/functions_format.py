@@ -4,9 +4,9 @@
 Test for required internal structure of Python files
 """
 
-import unittest
 import os
 import re
+import unittest
 
 
 def is_python_file(path):

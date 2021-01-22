@@ -4,9 +4,9 @@
 Test for JSON fomat in activities
 """
 
-import unittest
-import os
 import json
+import os
+import unittest
 
 
 def is_json_file(path):
