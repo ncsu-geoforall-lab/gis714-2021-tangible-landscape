@@ -56,21 +56,21 @@ Create a new branch for your changes and switch to it.
 Here, we will call the new branch `add-awesome-activity`.
 In command line, do:
 
-```
+```sh
 git switch -c add-awesome-activity
 ```
 
 Add Python script with your Python file and your JSON file to the repository
 as new files:
 
-```
+```sh
 git add activities/awesome-activity.py
 git add activities/awesome-activity.json
 ```
 
 Record the changes:
 
-```
+```sh
 git commit -am "Add awesome activity"
 ```
 
@@ -78,7 +78,7 @@ Publish the changes into your fork
 (`origin` is how Git refers to the remote repository you cloned from,
 `add-awesome-activity` is the name you have picked earlier for your branch):
 
-```
+```sh
 git push origin add-awesome-activity
 ```
 
@@ -104,7 +104,7 @@ To update your fork, first, you need to add the upstream repository as another
 So, add the upstream repository as another remote repository called `upstream`.
 In command line, using:
 
-```
+```sh
 git remote add upstream https://github.com/ncsu-geoforall-lab/gis714-2021-tangible-landscape
 ```
 
@@ -112,7 +112,7 @@ Second, switch to the `main` branch of your repository
 (the `main` branch should have no changes in it since you used a separate branch
 to make the changes for your first PR):
 
-```
+```sh
 git switch main
 ```
 
@@ -120,7 +120,7 @@ Third, update the `main` branch of your local repository to match
 the `main` branch from the upstream repository.
 This can be done with the two following commands:
 
-```
+```sh
 git fetch upstream
 git rebase upstream/main
 ```
@@ -128,7 +128,7 @@ git rebase upstream/main
 Optionally, you can push the update to your fork on GitHub
 (this has no effect on your later PRs):
 
-```
+```sh
 git push
 ```
 
