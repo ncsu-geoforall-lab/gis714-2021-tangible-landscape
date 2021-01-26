@@ -140,7 +140,9 @@ class IndexPage:
             "-//W3C//DTD XHTML 1.0 Strict//EN",
             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd",
         )
-        self._dom = impl.createDocument("http://www.w3.org/1999/xhtml", "html", doc_type)
+        self._dom = impl.createDocument(
+            "http://www.w3.org/1999/xhtml", "html", doc_type
+        )
         self._html = self._dom.documentElement
         title_element = self._dom.createElement("title")
         title_element.appendChild(self._dom.createTextNode(title))
@@ -149,6 +151,7 @@ class IndexPage:
         heading = self._dom.createElement("h1")
         heading.appendChild(self._dom.createTextNode(title))
         self._body.appendChild(heading)
+
     def add_activity(self, activity, image):
         heading = self._dom.createElement("h2")
         heading.appendChild(self._dom.createTextNode(activity["title"]))
@@ -156,6 +159,7 @@ class IndexPage:
         img = self._dom.createElement("img")
         img.setAttribute("src", image)
         self._body.appendChild(img)
+
     def finish(self):
         # This is not most reusable, but it is all we need now.
         self._html.appendChild(self._body)
@@ -183,10 +187,14 @@ def main():
         "--grass", default="grass", help="GRASS GIS exectutable (path or name)"
     )
     parser.add_argument(
-        "--exclude", action='append', help="Exclude files based on pattern (using Unix shell-style wildcards with Python fnmatch)"
+        "--exclude",
+        action="append",
+        help="Exclude files based on pattern (using Unix shell-style wildcards with Python fnmatch)",
     )
     parser.add_argument(
-        "--no-individual-pages", action='store_true', help="Do not generate separate pages for individual activities"
+        "--no-individual-pages",
+        action="store_true",
+        help="Do not generate separate pages for individual activities",
     )
     args = parser.parse_args()
 
@@ -197,7 +205,9 @@ def main():
 
     grass_runner = GrassRunner(executable=args.grass, mapset=args.mapset_path)
 
-    index_page = IndexPage(title="Tangible Landscape Activities Overview", filename="index.html")
+    index_page = IndexPage(
+        title="Tangible Landscape Activities Overview", filename="index.html"
+    )
 
     for json_file in path.iterdir():
         if not is_json_file(json_file):
