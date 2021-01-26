@@ -2,7 +2,8 @@ name: Render activities
 
 on:
   pull_request:
-    branches: [ main ]
+    branches:
+    - main
 
 jobs:
   render:
