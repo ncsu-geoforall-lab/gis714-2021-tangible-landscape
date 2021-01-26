@@ -38,10 +38,14 @@ jobs:
 
   content:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.9"
     - name: Test newlines
       run: |
         python3 ./tests/newlines.py
@@ -54,15 +58,19 @@ jobs:
 
   code:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
-        python-version: [2.7, 3.5, 3.6]
+        python-version:
+        - "3.6"
+        - "3.7"
+        - "3.8"
+        - "3.9"
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
