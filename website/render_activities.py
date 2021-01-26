@@ -132,6 +132,7 @@ def create_activity_page(activity, image, filename):
 
 
 class IndexPage:
+    """Multi-stage writter for a main/index file with multiple activities"""
     def __init__(self, title, filename):
         self._filename = filename
         impl = getDOMImplementation()
@@ -153,6 +154,7 @@ class IndexPage:
         self._body.appendChild(heading)
 
     def add_activity(self, activity, image):
+        """Add one activity and its image"""
         heading = self._dom.createElement("h2")
         heading.appendChild(self._dom.createTextNode(activity["title"]))
         self._body.appendChild(heading)
@@ -161,6 +163,7 @@ class IndexPage:
         self._body.appendChild(img)
 
     def finish(self):
+        """Finish creating HTML and write it to file"""
         # This is not most reusable, but it is all we need now.
         self._html.appendChild(self._body)
         with open(self._filename, mode="w") as out:
@@ -177,7 +180,8 @@ def filename_matches_pattern(filename, patterns):
 
 def main():
     """Process command line, collect files, and process them"""
-
+    # We allow the main function to have more variables for sake of flow clarity.
+    # pylint: disable=too-many-locals
     parser = argparse.ArgumentParser(
         description="Run, render, and create HTML for activities"
     )
@@ -189,7 +193,7 @@ def main():
     parser.add_argument(
         "--exclude",
         action="append",
-        help="Exclude files based on pattern (using Unix shell-style wildcards with Python fnmatch)",
+        help="Exclude files based on pattern (shell wildcards with Python fnmatch)",
     )
     parser.add_argument(
         "--no-individual-pages",
@@ -200,8 +204,7 @@ def main():
 
     with open(args.config_file) as main_config_file:
         main_config = json.load(main_config_file)
-    path = Path(main_config["includeTasks"])
-    path = resolve_path(path, args.config_file)
+    path = resolve_path(main_config["includeTasks"], args.config_file)
 
     grass_runner = GrassRunner(executable=args.grass, mapset=args.mapset_path)
 
@@ -223,16 +226,15 @@ def main():
         python_file = activity["analyses"]
         python_file = resolve_path(python_file, json_file)
 
-        img_name = str(Path(json_file.stem).with_suffix(".png"))
-        html_name = str(Path(json_file.stem).with_suffix(".html"))
-
         grass_runner.run_python(python_file)
+        img_name = str(Path(json_file.stem).with_suffix(".png"))
         grass_renderer = GrassRenderer(
             runner=grass_runner, filename=img_name, width=500, height=500
         )
         for layer in activity["layers"]:
             grass_renderer.run(*layer)
         if not args.no_individual_pages:
+            html_name = str(Path(json_file.stem).with_suffix(".html"))
             create_activity_page(activity, img_name, html_name)
         index_page.add_activity(activity, img_name)
 
