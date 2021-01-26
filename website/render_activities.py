@@ -130,6 +130,38 @@ def create_activity_page(activity, image, filename):
         out.write(dom.toxml())
 
 
+class IndexPage:
+    def __init__(self, title, filename):
+        self._filename = filename
+        impl = getDOMImplementation()
+        doc_type = impl.createDocumentType(
+            "html",
+            "-//W3C//DTD XHTML 1.0 Strict//EN",
+            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd",
+        )
+        self._dom = impl.createDocument("http://www.w3.org/1999/xhtml", "html", doc_type)
+        self._html = self._dom.documentElement
+        title_element = self._dom.createElement("title")
+        title_element.appendChild(self._dom.createTextNode(title))
+        self._html.appendChild(title_element)
+        self._body = self._dom.createElement("body")
+        heading = self._dom.createElement("h1")
+        heading.appendChild(self._dom.createTextNode(title))
+        self._body.appendChild(heading)
+    def add_activity(self, activity, image):
+        heading = self._dom.createElement("h2")
+        heading.appendChild(self._dom.createTextNode(activity["title"]))
+        self._body.appendChild(heading)
+        img = self._dom.createElement("img")
+        img.setAttribute("src", image)
+        self._body.appendChild(img)
+    def finish(self):
+        # This is not most reusable, but it is all we need now.
+        self._html.appendChild(self._body)
+        with open(self._filename, mode="w") as out:
+            out.write(self._dom.toxml())
+
+
 def main():
     """Process command line, collect files, and process them"""
 
@@ -149,6 +181,8 @@ def main():
     path = resolve_path(path, args.config_file)
 
     grass_runner = GrassRunner(executable=args.grass, mapset=args.mapset_path)
+
+    index_page = IndexPage(title="Tangible Landscape Activities Overview", filename="index.html")
 
     for json_file in path.iterdir():
         if not is_json_file(json_file):
@@ -172,6 +206,9 @@ def main():
         for layer in activity["layers"]:
             grass_renderer.run(*layer)
         create_activity_page(activity, img_name, html_name)
+        index_page.add_activity(activity, img_name)
+
+    index_page.finish()
 
 
 if __name__ == "__main__":
