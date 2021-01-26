@@ -59,7 +59,7 @@ jobs:
     - name: Archive code coverage results
       uses: actions/upload-artifact@v2
       with:
-        name: pages
+        name: activities-as-html
         path: |
           pages
           !pages/*.png
