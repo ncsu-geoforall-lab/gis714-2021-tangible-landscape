@@ -1,0 +1,31 @@
+name: File content
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+jobs:
+
+  content:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.9"
+    - name: Test newlines
+      run: |
+        python3 ./tests/newlines.py
+    - name: Test content structure of Python files
+      run: |
+        python3 ./tests/functions_format.py
+    - name: Test content structure of JSON files
+      run: |
+        python3 ./tests/json_structure.py

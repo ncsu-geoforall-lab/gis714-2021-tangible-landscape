@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Test for JSON fomat in activities
+Test for JSON format in activities
 """
 
 import json
