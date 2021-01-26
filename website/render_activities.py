@@ -4,11 +4,11 @@
 
 import argparse
 import json
-from pathlib import Path
-import subprocess
 import os
-from xml.dom.minidom import getDOMImplementation
+import subprocess
 import weakref
+from pathlib import Path
+from xml.dom.minidom import getDOMImplementation
 
 
 def is_python_file(path):
