@@ -3,6 +3,7 @@
 """Run predefined case for each analysis and render it with its result"""
 
 import argparse
+import base64
 import json
 import os
 import subprocess
@@ -94,6 +95,15 @@ class GrassRunner:
         self.run("python", *args)
 
 
+def image_to_text(filename):
+    """Return file contents as 'data:image/png' suitable for inclusion into HTML.
+
+    The file needs to be a PNG.
+    """
+    data = base64.b64encode(open(filename, "rb").read()).decode("utf-8")
+    return "data:image/png;base64,{0}".format(data)
+
+
 def create_activity_page(activity, image, filename):
     """Create HTML page for an activity given its definition and redered image"""
     impl = getDOMImplementation()
@@ -112,7 +122,8 @@ def create_activity_page(activity, image, filename):
     heading.appendChild(dom.createTextNode(activity["title"]))
     body.appendChild(heading)
     img = dom.createElement("img")
-    img.setAttribute("src", image)
+    data = image_to_text(image)
+    img.setAttribute("src", data)
     body.appendChild(img)
     html.appendChild(body)
     with open(filename, mode="w") as out:
