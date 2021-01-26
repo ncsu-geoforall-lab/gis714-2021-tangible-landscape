@@ -1,4 +1,4 @@
-name: Render activities
+name: Publish GH Pages
 
 on:
   pull_request:
