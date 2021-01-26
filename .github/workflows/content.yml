@@ -12,7 +12,17 @@ jobs:
 
   content:
 
+    name: ${{ matrix.name }}
     runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+       include:
+         - name: "Check newlines"
+           file: ./tests/newlines.py
+         - name: "Python files"
+           file: ./tests/newlines.py
+         - name: "JSON files"
+           file: ./tests/newlines.py
 
     steps:
     - uses: actions/checkout@v2
@@ -20,12 +30,6 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: "3.9"
-    - name: Test newlines
+    - name: ${{ matrix.name }}
       run: |
-        python3 ./tests/newlines.py
-    - name: Test content structure of Python files
-      run: |
-        python3 ./tests/functions_format.py
-    - name: Test content structure of JSON files
-      run: |
-        python3 ./tests/json_structure.py
+        python3 ${{ matrix.file }}
