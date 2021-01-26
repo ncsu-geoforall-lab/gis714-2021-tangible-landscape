@@ -133,6 +133,7 @@ def create_activity_page(activity, image, filename):
 
 class IndexPage:
     """Multi-stage writter for a main/index file with multiple activities"""
+
     def __init__(self, title, filename):
         self._filename = filename
         impl = getDOMImplementation()
