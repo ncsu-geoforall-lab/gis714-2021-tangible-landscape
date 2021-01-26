@@ -4,6 +4,7 @@
 
 import argparse
 import base64
+import fnmatch
 import json
 import os
 import subprocess
@@ -162,6 +163,14 @@ class IndexPage:
             out.write(self._dom.toxml())
 
 
+def filename_matches_pattern(filename, patterns):
+    """Return True if filename matches a pattern from patterns"""
+    for pattern in patterns:
+        if fnmatch.fnmatch(filename, pattern):
+            return True
+    return False
+
+
 def main():
     """Process command line, collect files, and process them"""
 
@@ -172,6 +181,12 @@ def main():
     parser.add_argument("mapset_path", help="an integer for the accumulator")
     parser.add_argument(
         "--grass", default="grass", help="GRASS GIS exectutable (path or name)"
+    )
+    parser.add_argument(
+        "--exclude", action='append', help="Exclude files based on pattern (using Unix shell-style wildcards with Python fnmatch)"
+    )
+    parser.add_argument(
+        "--no-individual-pages", action='store_true', help="Do not generate separate pages for individual activities"
     )
     args = parser.parse_args()
 
@@ -189,6 +204,8 @@ def main():
             continue
         if json_file.samefile(args.config_file):
             continue
+        if args.exclude and filename_matches_pattern(str(json_file), args.exclude):
+            continue
         with open(json_file) as file_o:
             activity_config = json.load(file_o)
 
@@ -205,7 +222,8 @@ def main():
         )
         for layer in activity["layers"]:
             grass_renderer.run(*layer)
-        create_activity_page(activity, img_name, html_name)
+        if not args.no_individual_pages:
+            create_activity_page(activity, img_name, html_name)
         index_page.add_activity(activity, img_name)
 
     index_page.finish()
