@@ -1,0 +1,53 @@
+name: Render activities
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  render:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install GRASS GIS
+      run: |
+        sudo add-apt-repository --yes ppa:ubuntugis/ubuntugis-unstable
+        sudo apt-get update
+        sudo apt-get install --yes grass grass-dev
+
+    - name: Test GRASS GIS
+      run: |
+        grass --tmp-location XY --exec g.version -e
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Cache sample data
+      uses: actions/cache@v1
+      id: cache
+      with:
+        path: ./nc_spm_08_grass7
+        key: ${{ runner.os }}-data
+
+    - name: Get sample data
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+        grass --tmp-location XY --exec g.extension g.download.location --verbose
+        grass --tmp-location XY --exec g.download.location url=https://grass.osgeo.org/sampledata/north_carolina/nc_spm_08_grass7.tar.gz dbase=. --verbose
+
+    - name: Run
+      run: |
+        mkdir pages
+        cd pages
+        ../website/render_activities.py ../activities/config.json ../nc_spm_08_grass7/user1
+
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v2
+      with:
+        name: pages
+        path: output/test/code-coverage.html
+        retention-days: 7
+
