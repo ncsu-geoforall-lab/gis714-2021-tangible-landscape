@@ -12,6 +12,7 @@ jobs:
 
   flake8:
 
+    name: Flake8 (Python ${{ matrix.python-version }})
     runs-on: ubuntu-20.04
     strategy:
       matrix:
