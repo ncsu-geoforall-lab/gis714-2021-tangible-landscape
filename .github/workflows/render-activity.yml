@@ -6,9 +6,14 @@ on:
 
 jobs:
   render:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
 
     - name: Install GRASS GIS
       run: |
@@ -19,11 +24,6 @@ jobs:
     - name: Test GRASS GIS
       run: |
         grass --tmp-location XY --exec g.version -e
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
 
     - name: Cache sample data
       uses: actions/cache@v1
