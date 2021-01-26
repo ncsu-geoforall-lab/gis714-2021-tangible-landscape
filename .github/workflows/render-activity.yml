@@ -1,7 +1,7 @@
 name: Render activities
 
 on:
-  pull_request:
+  push:
     branches:
     - main
 
@@ -60,5 +60,8 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: pages
-        path: pages
+        path: |
+          pages
+          !pages/*.png
+          !pages/index.html
         retention-days: 7
