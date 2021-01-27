@@ -23,6 +23,8 @@ jobs:
            file: ./tests/newlines.py
          - name: "JSON files"
            file: ./tests/newlines.py
+         - name: "Filenames"
+           file: ./tests/filenames.py
 
     steps:
     - uses: actions/checkout@v2
