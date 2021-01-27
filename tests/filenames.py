@@ -3,8 +3,6 @@
 """Test filenames"""
 
 import os
-import shutil
-import subprocess
 import unittest
 
 
@@ -19,16 +17,16 @@ class TestFunctionsInFiles(unittest.TestCase):
         """Check that files are named properly"""
         for filename in os.listdir(self.path):
             if filename in self.allow_files:
-                    continue
+                continue
             for expr in [r".*test_?[0-9]+\..*", r"^test\."]:
                 self.assertNotRegex(
                     filename,
                     expr,
                     msg=(
-                            f"The name '{filename}' seems like a local experiment"
-                            " (use more descriptive name for this activity)"
-                        )
-                    )
+                        f"The name '{filename}' seems like a local experiment"
+                        " (use more descriptive name for this activity)"
+                    ),
+                )
             for word in self.forbid_words:
                 self.assertNotIn(
                     word,
