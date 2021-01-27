@@ -1,7 +1,5 @@
 # NCSU GIS 714 Spring 2021: Tangible Landscape
 
-![CI](https://github.com/ncsu-geoforall-lab/gis714-2021-tangible-landscape/workflows/CI/badge.svg)
-
 ## How to add a new activity
 
 To add a new activity to this project, you need to fork this repository, create a branch, create a pull request,
@@ -84,6 +82,40 @@ git push origin add-awesome-activity
 
 This will give your URL to create pull request on GitHub
 or simply go to GitHub and it will suggest you to open a PR.
+
+## After opening PR
+
+After you open a PR, you will see various checks running at the bottom of
+the PR page. The check are testing correctness of the code from several
+perspectives including syntax, indentation, and several checks specific to
+this repository.
+
+If you see _Some checks were not successful_, review the output to
+see the details of what is wrong.
+For example, if you see the _Super-Linter_ check failing, click _Details_
+and then scroll up to see the actual error which, in this case, can be
+recognized by the word _ERROR_.
+
+Result of one of the checks needs to be examined manually.
+Its name is _Render activities_ and it is running the Python file and
+combining it with the associated JSON file into an HTML page.
+So, even when the check says _Successful_, click on _Details_
+and then open _Artifacts_, download the _activities-as-html_
+artifact, unzip it, find an HTML file named like your JSON file
+and open it in your web browser. You should see the title you provided
+and the rendering of your results according to what you specified
+in the JSON file. This provides you with the idea of what will
+eventually happen in Tangible Landscape.
+
+You can run any of these checks locally as well, but it is more practical to just
+start using some of the basic tools used in the background,
+namely _Black_, _Flake8_, and _Pylint_.
+For the rest, you can just rely on the checks associated with the PR.
+
+If some of the checks are failing for you or the _activities-as-html_ artifact
+does not look as you intended, make required changes locally, then commit and push
+as you did before. This will update the PR and trigger the checks.
+Repeat as needed.
 
 ## How to modify your activity
 
