@@ -70,6 +70,7 @@ def main():
     # resampling to have similar resolution as with TL
     gs.run_command("g.region", raster=elevation, res=4, flags="a", env=env)
     gs.run_command("r.resamp.stats", input=elevation, output=elev_resampled, env=env)
+    gs.run_command("g.copy", raster=[elev_resampled, "scan_saved"], env=env)
 
     # create points
     points = "points"
