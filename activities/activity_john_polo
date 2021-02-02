@@ -54,6 +54,9 @@ def run_drain(scanned_elev, env, points=None, **kwargs):
     else:
         # create empty vector
         gs.run_command("v.edit", map=drain, tool="create", env=env)
+        
+def test_fun():
+    pass
 
 
 # this part is for testing without TL
