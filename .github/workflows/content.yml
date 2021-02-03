@@ -20,9 +20,9 @@ jobs:
          - name: "Check newlines"
            file: ./tests/newlines.py
          - name: "Python files"
-           file: ./tests/newlines.py
+           file: ./tests/functions_format.py
          - name: "JSON files"
-           file: ./tests/newlines.py
+           file: ./tests/json_structure.py
          - name: "Filenames"
            file: ./tests/filenames.py
 
