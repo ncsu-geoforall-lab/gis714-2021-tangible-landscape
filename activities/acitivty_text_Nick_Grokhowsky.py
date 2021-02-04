@@ -7,7 +7,7 @@ Test of GitHub Push/Pull
 import grass.script as gs
 
 
-def output_text(text):
+def run_output_text(text):
 	print(text)
 
 
@@ -16,7 +16,7 @@ def output_text(text):
 def main():
     import os
 
-    output_text("Hello Vaclav!")
+    run_output_text("Hello Vaclav!")
 
 
 
