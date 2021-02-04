@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 """
 Instructions
 
@@ -20,7 +21,6 @@ import grass.script as gs
 
 def run_slope(scanned_elev, env, **kwargs):
     gs.run_command("r.slope.aspect", elevation=scanned_elev, slope="slope", env=env)
-
 
 def run_aspect(scanned_elev, env, **kwargs):
     gs.run_command("r.slope.aspect", elevation=scanned_elev, aspect="aspect", env=env)
