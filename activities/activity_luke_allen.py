@@ -16,6 +16,7 @@ Instructions
 """
 
 from datetime import datetime
+
 import grass.script as gs
 
 
@@ -28,7 +29,7 @@ def run_sim_wave(scanned_elev, env, **kwargs):
     # relatively close to sea level. Finally, the wave will also move at a
     # speed of 10 m/s.
     base_pres = 1.01e5  # call standard pressure at sea level 1010 hPa
-    # say we have a 1 hPa amplitude wave 
+    # say we have a 1 hPa amplitude wave
     # (not necessarily realistic, but want to make the effect visible in the resulting map)
     wave_amplitude = 100
     wavelength = 300  # with 300 m wavelength
@@ -36,24 +37,20 @@ def run_sim_wave(scanned_elev, env, **kwargs):
     cur_sec = float(datetime.now().strftime("%S"))
     interval = 75
     gs.mapcalc(
-        "pres = {base_pres}-({scanned_elev}*10) + {wave_amplitude}*(sin((x()-{cur_sec}*{wave_vel})*360/{wavelength})) + rand(-20,20)".format(
-            base_pres=base_pres,
-            wave_amplitude=wave_amplitude,
+        "pres = {base}-({elev}*10) + {amplitude}*(sin((x()-{cur_sec}*{vel})*360/{wavelength})) + rand(-20,20)".format(
+            base=base_pres,
+            amplitude=wave_amplitude,
             wavelength=wavelength,
-            scanned_elev=scanned_elev,
+            elev=scanned_elev,
             cur_sec=cur_sec,
-            wave_vel=wave_vel,
-            ),
+            vel=wave_vel,
+        ),
         seed="auto",
         env=env)
     gs.run_command(
-        "r.contour",
-        input="pres",
-        output="contours",
-        step=interval,
-        flags="t",
-        env=env,
+        "r.contour", input="pres", output="contours", step=interval, flags="t", env=env,
     )
+
 
 # this part is for testing without TL
 def main():
@@ -76,3 +73,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
