@@ -1,0 +1,16 @@
+{
+  "tasks": [
+      {
+      "layers": [
+        [
+          "d.rast", "map=flow"
+        ]
+      ],
+      "base": "elev_lid792_1m",
+      "scanning_params": {"smooth": 10, "zexag": 2, "numscans": 1, "interpolate": true},
+      "calibrate": true,
+      "analyses": "hinks.py",
+      "title": "Izzi water flow test"
+    }
+  ]
+}
