@@ -1,18 +1,10 @@
 #!/usr/bin/env python3
 
 """
-Instructions
-
-- Functions intended to run for each scan
-  need to be named run_xxxxx
-
-- Do not modify the parameters of the run_xxx function
-  unless you know what you are doing
-  see optional parameters:
-  https://github.com/tangible-landscape/grass-tangible-landscape/wiki/Running-analyses-and-developing-workflows#python-workflows
-
-- All gs.run_command/read_command/write_command/parse_command
-  need to be passed env parameter (..., env=env)
+Activity description:
+- The function here will generate atmospheric pressure values at the surface
+ over the region in a moving wave pattern, with elevation accounted for and
+ random noise added.
 """
 
 from datetime import datetime
@@ -30,12 +22,15 @@ def run_sim_wave(scanned_elev, env, **kwargs):
     # speed of 10 m/s.
     base_pres = 1.01e5  # call standard pressure at sea level 1010 hPa
     # say we have a 1 hPa amplitude wave
-    # (not necessarily realistic, but want to make the effect visible in the resulting map)
+    # (not necessarily common, but want to make the effect visible in the resulting map)
     wave_amplitude = 100
     wavelength = 300  # with 300 m wavelength
     wave_vel = 10  # moving at 10 m/s
+    # the time fed to the calculation will only depend on the seconds place of
+    # the current time, so the wave 'resets' every minute. To make it loop
+    # smoothly, the wave period needs to go into 60 s evenly (e.g., T=300/10=30)
     cur_sec = float(datetime.now().strftime("%S"))
-    interval = 75
+    interval = 75  # contour interval
     gs.mapcalc(
         "pres = {base}-({elev}*10) + {amplitude}*(sin((x()-{cur_sec}*{vel})*360/{wavelength})) + rand(-20,20)".format(
             base=base_pres,
