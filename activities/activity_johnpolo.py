@@ -15,7 +15,7 @@ Instructions
 import grass.script as gs
 
 
-def run_topo_par(scanned_elev, morphmap, select_meth, **kwargs):
+def run_topo_par(scanned_elev, morphmap, select_meth, env, **kwargs):
     gs.run_command('r.param.scale', input=scanned_elev, output=morphmap, method=select_meth, env=env, overwrite=True)
     
 
