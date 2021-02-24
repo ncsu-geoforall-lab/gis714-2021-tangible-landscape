@@ -3,7 +3,7 @@
       {
       "layers": [
         [
-          "d.rast", "map=elev_lid792_1m"
+          "d.rast", "map=feat_verticalcurv"
         ]
       ],
       "base": "elev_lid792_1m",
