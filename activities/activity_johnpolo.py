@@ -24,7 +24,7 @@ def run_topo_par(scanned_elev, morphmap, select_meth, env, **kwargs):
         output=morphmap,
         method=select_meth,
         env=env,
-        overwrite=True
+        overwrite=True,
     )
 
 
@@ -44,7 +44,7 @@ def main():
         scanned_elev=elevation,
         morphmap="feat_verticalcurv",
         env=env,
-        select_meth=select_meth
+        select_meth=select_meth,
     )
 
 
