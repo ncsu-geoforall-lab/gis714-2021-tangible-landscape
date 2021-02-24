@@ -15,8 +15,8 @@ Instructions
 import grass.script as gs
 
 
-def run_topo_par(scanned_elev, morphmap, select_meth, env, **kwargs):
-    gs.run_command('r.param.scale', input=scanned_elev, output=morphmap, method=select_meth, env=env, overwrite=True)
+def run_topo_par(scanned_elev, morphmap, select_meth, **kwargs):
+    gs.run_command('r.param.scale', input=scanned_elev, output=morphmap, method=select_meth, overwrite=True)
     
 
 # this part is for testing without TL
@@ -31,7 +31,7 @@ def main():
     elevation = "elev_lid792_1m"
     select_meth = 'profc'
     
-    run_topo_par(scanned_elev=elevation, morphmap='feat_verticalcurv', select_meth=select_meth, env=env)
+    run_topo_par(scanned_elev=elevation, morphmap='feat_verticalcurv', select_meth=select_meth)
 
 if __name__ == "__main__":
     main()
