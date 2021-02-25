@@ -29,7 +29,7 @@ def main():
     elevation = "elev_lid792_1m"
     # resampling to have similar resolution as with TL
     gs.run_command("g.region", raster=elevation, res=4, flags="a", env=env)
-    
+
     run_topo_par(
         scanned_elev=elevation,
         env=env,
