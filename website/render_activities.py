@@ -81,9 +81,7 @@ class GrassRunner:
 
     def run_env(self, env, args):
         """Run a command with environmental variables provided in env"""
-        subprocess.check_call(
-            [self.executable, self.mapset, "--exec"] + args, env=env,
-        )
+        subprocess.check_call([self.executable, self.mapset, "--exec"] + args, env=env)
 
     def run(self, *args):
         """Run a command"""

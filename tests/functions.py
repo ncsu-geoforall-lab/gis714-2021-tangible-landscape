@@ -47,7 +47,7 @@ class TestFunctionsInFiles(unittest.TestCase):
                 [self.executable, self.mapset_path, "--exec", self.python, full_path]
             )
             self.assertEqual(
-                return_code, 0, msg=("Running {filename} failed".format(**locals())),
+                return_code, 0, msg=("Running {filename} failed".format(**locals()))
             )
             return_code = subprocess.call(
                 [self.executable, self.mapset_path, "--exec", self.python, full_path]

@@ -44,7 +44,7 @@ def run_sim_wave(scanned_elev, env, **kwargs):
         env=env,
     )
     gs.run_command(
-        "r.contour", input="pres", output="contours", step=interval, flags="t", env=env,
+        "r.contour", input="pres", output="contours", step=interval, flags="t", env=env
     )
 
 
