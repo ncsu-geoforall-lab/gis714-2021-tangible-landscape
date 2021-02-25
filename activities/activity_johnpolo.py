@@ -1,30 +1,19 @@
 #!/usr/bin/env python3
 
 """
-Instructions
-- Functions intended to run for each scan
-  need to be named run_xxxxx
-
-- Do not modify the parameters of the run_xxx function
-  unless you know what you are doing
-  see optional parameters:
-  https://github.com/tangible-landscape/grass-tangible-landscape/wiki/Running-analyses-and-developing-workflows#python-workflows
-
-- All gs.run_command/read_command/write_command/parse_command
-  need to be passed env parameter (..., env=env)
+This activity will draw a map that illustrates any concave topography in the raster.
 """
 
 import grass.script as gs
 
 
-def run_topo_par(scanned_elev, morphmap, select_meth, env, **kwargs):
+def run_topo_par(scanned_elev, env, **kwargs):
     gs.run_command(
         "r.param.scale",
         input=scanned_elev,
-        output=morphmap,
-        method=select_meth,
+        output="feat_verticalcurv",
+        method="profc",
         env=env,
-        overwrite=True,
     )
 
 
@@ -38,13 +27,13 @@ def main():
     env["GRASS_OVERWRITE"] = "1"
 
     elevation = "elev_lid792_1m"
-    select_meth = "profc"
+    # resampling to have similar resolution as with TL
+    gs.run_command("g.region", raster=elevation, res=4, flags="a", env=env)
+    gs.run_command("r.resamp.stats", input=elevation, output=elev_resampled, env=env)
 
     run_topo_par(
         scanned_elev=elevation,
-        morphmap="feat_verticalcurv",
         env=env,
-        select_meth=select_meth,
     )
 
 
