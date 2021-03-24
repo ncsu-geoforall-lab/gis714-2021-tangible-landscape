@@ -10,8 +10,7 @@
         ]
       ],
       "base": "elev_lid792_1m",
-      "scanning_params": {"smooth": 8, "zexag": 2, "numscans": 3, "interpolate": false},
-      "calibration_scanning_params": {"smooth": 10, "numscans": 1, "interpolate": true},
+      "scanning_params": {"smooth": 8, "zexag": 2, "numscans": 1, "interpolate": false},
       "calibrate": true,
       "analyses": "activity_nick_grokhowsky.py",
       "title": "High-Low Pixel Values"
