@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+
+"""
+Instructions
+
+- Functions intended to run for each scan
+  need to be named run_xxxxx
+
+- Do not modify the parameters of the run_xxx function
+  unless you know what you are doing
+  see optional parameters:
+  https://github.com/tangible-landscape/grass-tangible-landscape/wiki/Running-analyses-and-developing-workflows#python-workflows
+
+- All gs.run_command/read_command/write_command/parse_command
+  need to be passed env parameter (..., env=env)
+"""
+
+import grass.script as gs
+
+def run_highestPixelValues(elev, env, **kwargs):
+	# Create a smooth surface from the elevation LiDAR points
+    gs.run_command(
+        'r.neighbors',
+         input=elev,
+         output='smooth',
+         method='average',
+         flags='c',
+    )
+    # Calculate univariate statistics
+    stats = gs.parse_command('r.univar', map='smooth')
+    
+    # Parse the stats library and capture the values for mean and standard deviation
+    for value in stats:
+        if 'mean' in value:
+            mean = float(value[ -7: ])
+        if 'standard deviation' in value:
+            sd = float(value[ -7: ])
+    high = str(mean + sd)
+    low = str(mean - sd)
+
+    # Using map algebra create a new raster map of highest and lowest pixel values versus all others
+    gs.mapcalc('high_values=if(smooth >= ' + high + ' && smooth <= ' + low + ')') 
+    gs.mapcalc('low_values=if(smooth <= ' + low + ')') 
+
+    # Change colors for high and low maps
+    gs.run_command('r.colors', map='high_values', color='elevation')
+    gs.run_command('r.colors', map='low_values', color='elevation')
+
+ 
+  
+
+# this part is for testing without TL
+def main():
+    import os
+    # Set elevation to identify highest points
+    elevation = "elev_lid792_1m"
+    # get the current environment variables as a copy
+    env = os.environ.copy()
+    # we want to run this repetetively without deleted the created files
+    env["GRASS_OVERWRITE"] = "1"
+    # Set region
+    gs.run_command("g.region", raster=elevation, env=env) 
+    # Call function
+    run_highestPixelValues(elev=elevation, env=env)
+
+
+if __name__ == "__main__":
+    main()
