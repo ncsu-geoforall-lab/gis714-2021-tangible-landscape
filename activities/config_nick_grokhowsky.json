@@ -5,6 +5,18 @@
       	[
           "d.rast", "final_values"
         ],
+        [
+          "d.rast", "smooth"
+        ],
+        [
+          "d.rast", "new_values"
+        ],
+        [
+          "d.rast", "high_values"
+        ],
+        [
+          "d.rast", "low_values"
+        ]       
       ],
       "base": "elev_lid792_1m",
       "scanning_params": {"smooth": 10, "zexag": 2, "numscans": 1, "interpolate": true},
