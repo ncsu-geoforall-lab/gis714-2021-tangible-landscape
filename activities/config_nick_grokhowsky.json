@@ -5,7 +5,23 @@
       "layers": [
         [
           "d.rast",
+          "map=smooth"
+        ],
+        [
+          "d.rast",
+          "map=high_values"
+        ],
+        [
+          "d.rast",
+          "map=low_values"
+        ],
+        [
+          "d.rast",
           "map=new_values"
+        ],
+        [
+          "d.rast",
+          "map=final_values"
         ],
       ],
       "base": "elev_lid792_1m",
