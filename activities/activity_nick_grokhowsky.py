@@ -17,6 +17,7 @@ Instructions
 
 import grass.script as gs
 
+
 # Function to show significantly high and low pixels
 def run_highestPixelValues(elev, env, **kwargs):
     gs.run_command(
@@ -31,19 +32,16 @@ def run_highestPixelValues(elev, env, **kwargs):
     #        mean = float(value[ -7: ])
     #    if 'standard deviation' in value:
     #        sd = float(value[ -7: ])
-
     # Calculate mean, standard deviation, and thresholds for high and low
     mean = float(stats["mean"])
     sd = float(stats["stddev"])
     high = str(mean + (2 * sd))
     low = str(mean - (2 * sd))
-
     # Using map algebra create a new raster map of highest and lowest pixel values versus all others
     gs.mapcalc("high_values=if(smooth >= " + high + ")", env=env)
     gs.mapcalc("new_values=high_values + 1", env=env)
     gs.mapcalc("low_values=if(smooth > " + low + ")", env=env)
     gs.mapcalc("final_values=high_values + low_values", env=env)
-
     # Change colors for high and low maps
     gs.run_command("r.colors", map="final_values", color="elevation", env=env)
 
