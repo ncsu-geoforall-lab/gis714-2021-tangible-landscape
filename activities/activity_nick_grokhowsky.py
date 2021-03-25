@@ -40,14 +40,15 @@ def run_highestPixelValues(elev, env, **kwargs):
     # Calculate mean, standard deviation, and thresholds for high and low
     mean = float(stats['mean'])
     sd = float(stats['stddev'])
-    high = str(mean + sd)
-    low = str(mean - sd)
+    high = str(mean + (2*sd))
+    low = str(mean - (2*sd))
 
     # Using map algebra create a new raster map of highest and lowest pixel values versus all others
     gs.mapcalc('high_values=if(smooth >= ' + high + ')', env=env) 
     gs.mapcalc('new_values=high_values + 1', env=env) 
     gs.mapcalc('low_values=if(smooth > ' + low + ')', env=env) 
     gs.mapcalc('final_values=high_values + low_values', env=env) 
+    gs.mapcalc('final_values=if(smooth > {high}), 2, if(smooth < {high} && smooth > {low}), 1, if(smooth < {low}), 0, env=env)
 
     # Change colors for high and low maps
     gs.run_command('r.colors', map='final_values', color='elevation', env=env)
@@ -68,3 +69,4 @@ def main():
 
 
 if __name__ == "__main__":
+  main()
