@@ -2,15 +2,12 @@
   "tasks": [
       {
       "layers": [
-        [
-          "d.rast", "map=high_values"
+      	[
+          "d.rast", "final_values"
         ],
-        [
-          "d.rast", "map=low_values"
-        ]
       ],
       "base": "elev_lid792_1m",
-      "scanning_params": {"smooth": 8, "zexag": 2, "numscans": 1, "interpolate": false},
+      "scanning_params": {"smooth": 10, "zexag": 2, "numscans": 1, "interpolate": true},
       "calibrate": true,
       "analyses": "activity_nick_grokhowsky.py",
       "title": "High-Low Pixel Values"

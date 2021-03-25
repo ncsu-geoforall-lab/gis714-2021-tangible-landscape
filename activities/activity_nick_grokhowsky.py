@@ -17,6 +17,7 @@ Instructions
 
 import grass.script as gs
 
+# Function to show significantly high and low pixels 
 def run_highestPixelValues(elev, env, **kwargs):
 	# Create a smooth surface from the elevation LiDAR points
     gs.run_command(
@@ -39,17 +40,18 @@ def run_highestPixelValues(elev, env, **kwargs):
     low = str(mean - sd)
 
     # Using map algebra create a new raster map of highest and lowest pixel values versus all others
-    gs.mapcalc('high_values=if(smooth >= ' + high + ' && smooth <= ' + low + ')') 
-    gs.mapcalc('low_values=if(smooth <= ' + low + ')') 
+    gs.mapcalc('high_values=if(smooth >= ' + high + ')') 
+    gs.mapcalc('new_values=high_values + 1') 
+    gs.mapcalc('low_values=if(smooth > ' + low + ')') 
+    gs.mapcalc('final_values=high_values + low_values') 
 
     # Change colors for high and low maps
     gs.run_command('r.colors', map='high_values', color='elevation')
     gs.run_command('r.colors', map='low_values', color='elevation')
-
- 
+    gs.run_command('r.colors', map='new_values', color='elevation')
+    gs.run_command('r.colors', map='final_values', color='elevation')
   
-
-# this part is for testing without TL
+# Call main function
 def main():
     import os
     # Set elevation to identify highest points
