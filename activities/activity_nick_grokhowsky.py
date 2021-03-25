@@ -19,17 +19,16 @@ import grass.script as gs
 
 # Function to show significantly high and low pixels 
 def run_highestPixelValues(elev, env, **kwargs):
-	# Create a smooth surface from the elevation LiDAR points
     gs.run_command(
         'r.neighbors',
          input=elev,
          output='smooth',
          method='average',
          flags='c',
-	 env=env
+         env=env
     )
     # Calculate univariate statistics
-    stats = gs.parse_command('r.univar', map='smooth', flag='g', env=env)
+    stats = gs.parse_command('r.univar', map='smooth', flags='g', env=env)
     
     # Parse the stats library and capture the values for mean and standard deviation
     #for value in stats:
@@ -38,8 +37,9 @@ def run_highestPixelValues(elev, env, **kwargs):
     #    if 'standard deviation' in value:
     #        sd = float(value[ -7: ])
     
-    mean = stats['mean']
-    sd = stats['sd']
+    # Calculate mean, standard deviation, and thresholds for high and low
+    mean = float(stats['mean'])
+    sd = float(stats['stddev'])
     high = str(mean + sd)
     low = str(mean - sd)
 
@@ -68,4 +68,3 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
