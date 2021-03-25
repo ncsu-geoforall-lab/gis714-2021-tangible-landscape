@@ -26,6 +26,7 @@ def run_highestPixelValues(elev, env, **kwargs):
          output='smooth',
          method='average',
          flags='c',
+	 env=env
     )
     # Calculate univariate statistics
     stats = gs.parse_command('r.univar', map='smooth')
@@ -46,10 +47,10 @@ def run_highestPixelValues(elev, env, **kwargs):
     gs.mapcalc('final_values=high_values + low_values') 
 
     # Change colors for high and low maps
-    gs.run_command('r.colors', map='high_values', color='elevation')
-    gs.run_command('r.colors', map='low_values', color='elevation')
-    gs.run_command('r.colors', map='new_values', color='elevation')
-    gs.run_command('r.colors', map='final_values', color='elevation')
+    gs.run_command('r.colors', map='high_values', color='elevation', env=env)
+    gs.run_command('r.colors', map='low_values', color='elevation', env=env)
+    gs.run_command('r.colors', map='new_values', color='elevation', env=env)
+    gs.run_command('r.colors', map='final_values', color='elevation', env=env)
   
 # Call main function
 def main():
