@@ -48,7 +48,6 @@ def run_highestPixelValues(elev, env, **kwargs):
     gs.mapcalc('new_values=high_values + 1', env=env) 
     gs.mapcalc('low_values=if(smooth > ' + low + ')', env=env) 
     gs.mapcalc('final_values=high_values + low_values', env=env) 
-    gs.mapcalc('final_values=if(smooth > {high}), 2, if(smooth < {high} && smooth > {low}), 1, if(smooth < {low}), 0, env=env)
 
     # Change colors for high and low maps
     gs.run_command('r.colors', map='final_values', color='elevation', env=env)
