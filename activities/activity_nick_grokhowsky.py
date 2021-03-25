@@ -32,24 +32,24 @@ def run_highestPixelValues(elev, env, **kwargs):
     stats = gs.parse_command('r.univar', map='smooth', env=env)
     
     # Parse the stats library and capture the values for mean and standard deviation
-    for value in stats:
-        if 'mean' in value:
-            mean = float(value[ -7: ])
-        if 'standard deviation' in value:
-            sd = float(value[ -7: ])
+    #for value in stats:
+    #    if 'mean' in value:
+    #        mean = float(value[ -7: ])
+    #    if 'standard deviation' in value:
+    #        sd = float(value[ -7: ])
+    
+    mean = stats['mean']
+    sd = stats['sd']
     high = str(mean + sd)
     low = str(mean - sd)
 
     # Using map algebra create a new raster map of highest and lowest pixel values versus all others
-    gs.mapcalc('high_values=if(smooth >= ' + high + ')') 
-    gs.mapcalc('new_values=high_values + 1') 
-    gs.mapcalc('low_values=if(smooth > ' + low + ')') 
-    gs.mapcalc('final_values=high_values + low_values') 
+    gs.mapcalc('high_values=if(smooth >= ' + high + ')', env=env) 
+    gs.mapcalc('new_values=high_values + 1', env=env) 
+    gs.mapcalc('low_values=if(smooth > ' + low + ')', env=env) 
+    gs.mapcalc('final_values=high_values + low_values', env=env) 
 
     # Change colors for high and low maps
-    gs.run_command('r.colors', map='high_values', color='elevation', env=env)
-    gs.run_command('r.colors', map='low_values', color='elevation', env=env)
-    gs.run_command('r.colors', map='new_values', color='elevation', env=env)
     gs.run_command('r.colors', map='final_values', color='elevation', env=env)
   
 # Call main function
