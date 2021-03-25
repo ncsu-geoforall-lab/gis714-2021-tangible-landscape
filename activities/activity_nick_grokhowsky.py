@@ -29,7 +29,7 @@ def run_highestPixelValues(elev, env, **kwargs):
 	 env=env
     )
     # Calculate univariate statistics
-    stats = gs.parse_command('r.univar', map='smooth', env=env)
+    stats = gs.parse_command('r.univar', map='smooth', flag='g', env=env)
     
     # Parse the stats library and capture the values for mean and standard deviation
     #for value in stats:
