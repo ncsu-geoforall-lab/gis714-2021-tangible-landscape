@@ -1,16 +1,18 @@
 {
+  "includeTasks": ".",
   "tasks": [
       {
       "layers": [
-      	[
-          "d.rast", "final_values"
+        [
+          "d.rast",
+          "map=new_values"
         ],
       ],
       "base": "elev_lid792_1m",
       "scanning_params": {"smooth": 10, "zexag": 2, "numscans": 1, "interpolate": true},
       "calibrate": true,
       "analyses": "activity_nick_grokhowsky.py",
-      "title": "High-Low Pixel Values"
+      "title": "Significantly high and low pixel values"
     }
   ]
 }
