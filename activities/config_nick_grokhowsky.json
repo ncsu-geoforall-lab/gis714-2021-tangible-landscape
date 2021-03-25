@@ -22,7 +22,7 @@
         [
           "d.rast",
           "map=final_values"
-        ],
+        ]
       ],
       "base": "elev_lid792_1m",
       "scanning_params": {"smooth": 10, "zexag": 2, "numscans": 1, "interpolate": true},
