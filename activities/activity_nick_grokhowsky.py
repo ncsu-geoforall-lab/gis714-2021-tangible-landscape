@@ -17,6 +17,7 @@ Instructions
 
 import grass.script as gs
 
+
 # Function to show significantly high and low pixels
 def run_significantValues(elev, env, **kwargs):
     gs.run_command(
