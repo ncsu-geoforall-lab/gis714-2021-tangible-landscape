@@ -17,34 +17,34 @@ Instructions
 
 import grass.script as gs
 
-# Function to show significantly high and low pixels 
+# Function to show significantly high and low pixels
 def run_significantValues(elev, env, **kwargs):
     gs.run_command(
-        'r.neighbors',
-         input=elev,
-         output='smooth',
-         method='average',
-         flags='c',
-         env=env
+        "r.neighbors", input=elev, output="smooth", method="average", flags="c", env=env
     )
     # Calculate univariate statistics
-    stats = gs.parse_command('r.univar', map='smooth', flags='g', env=env)  
-        
+    stats = gs.parse_command("r.univar", map="smooth", flags="g", env=env)
+
     # Calculate mean, standard deviation, and thresholds for high and low
-    mean = float(stats['mean'])
-    sd = float(stats['stddev'])
-    high = str(mean + (1*sd))
-    low = str(mean - (1*sd))
+    mean = float(stats["mean"])
+    sd = float(stats["stddev"])
+    high = str(mean + (1 * sd))
+    low = str(mean - (1 * sd))
 
     # Using map algebra create a new raster map of highest and lowest pixel values versus all others
-    gs.mapcalc(f"smooth = if(smooth < {low}, 0, if(smooth > {high}, 1, smooth))", overwrite=True) 
+    gs.mapcalc(
+        f"smooth = if(smooth < {low}, 0, if(smooth > {high}, 1, smooth))",
+        overwrite=True,
+    )
 
     # Change colors for high and low maps
-    gs.run_command('r.colors', map='smooth', color='elevation', env=env)
-  
+    gs.run_command("r.colors", map="smooth", color="elevation", env=env)
+
+
 # Call main function
 def main():
     import os
+
     # Set elevation to identify highest points
     elevation = "elev_lid792_1m"
     # get the current environment variables as a copy
@@ -52,10 +52,10 @@ def main():
     # we want to run this repetetively without deleted the created files
     env["GRASS_OVERWRITE"] = "1"
     # Set region
-    gs.run_command("g.region", raster=elevation, env=env) 
+    gs.run_command("g.region", raster=elevation, env=env)
     # Call function
     run_significantValues(elev=elevation, env=env)
 
 
 if __name__ == "__main__":
-	main()
+    main()
