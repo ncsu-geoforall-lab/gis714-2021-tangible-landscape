@@ -33,12 +33,10 @@ def run_significantValues(elev, env, **kwargs):
     low = str(mean - (1 * sd))
 
     # Using map algebra create a new raster map of highest and lowest pixel values versus all others
-    gs.mapcalc(
-        f"smooth = if(smooth < {low}, 0, if(smooth > {high}, 1, null()))", env=env
-    )
+    gs.mapcalc(f"out = if(smooth < {low}, 0, if(smooth > {high}, 1, null()))", env=env)
 
     # Change colors for high and low maps
-    gs.run_command("r.colors", map="smooth", color="elevation", env=env)
+    gs.run_command("r.colors", map="smooth", color="differences", env=env)
 
 
 # Call main function
