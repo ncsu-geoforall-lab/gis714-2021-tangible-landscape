@@ -36,7 +36,7 @@ def run_significantValues(elev, env, **kwargs):
     gs.mapcalc(f"out = if(smooth < {low}, 0, if(smooth > {high}, 1, null()))", env=env)
 
     # Change colors for high and low maps
-    gs.run_command("r.colors", map="smooth", color="differences", env=env)
+    gs.run_command("r.colors", map="out", color="differences", env=env)
 
 
 # Call main function
