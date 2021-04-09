@@ -29,14 +29,18 @@ def run_significantValues(elev, env, **kwargs):
     # Calculate mean, standard deviation, and thresholds for high and low
     mean = float(stats["mean"])
     sd = float(stats["stddev"])
-    high = str(mean + (1 * sd))
-    low = str(mean - (1 * sd))
+
+    # Using map algebra create a new raster map of z-scores
+    gs.mapcalc(f"out = (smooth - {mean}) / {sd}", env=env)
 
     # Using map algebra create a new raster map of highest and lowest pixel values versus all others
-    gs.mapcalc(f"out = if(smooth < {low}, -1, if(smooth > {high}, 1, null()))", env=env)
+    gs.mapcalc(
+        f"out = if(out < -2.58, -3, if(out >= -2.58 & out < -1.96, -2, if(out >= -1.96 & out < -1.65, -1, if(out >= -1.65 & out <= 1.65, 0, if(out > 1.65 & out < 1.96, 1, if(out > 1.96 & out <= 2.58, 2, if(out > 2.58, 3, null())))))))",
+        env=env,
+    )
 
     # Change colors for high and low maps
-    gs.run_command("r.colors", map="out", color="differences", env=env)
+    gs.run_command("r.colors", map="out", color="elevation", env=env)
 
 
 # Call main function
