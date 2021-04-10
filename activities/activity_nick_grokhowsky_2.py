@@ -23,13 +23,15 @@ import grass.script as gs
 # Function to show significantly high and low pixels
 def run_significantValues(elev, env, **kwargs):
     # Create rules for r.recode
-    rules = ["*:-2.58: -3:-3",
-            "-2.58:-1.96:-2:-2",
-            "-1.96:-1.65:-1:-1",
-            "-1.65:1.65:0:0",
-            "1.65:1.96:1:1",
-            "1.96:2.58:2:2",
-            "2.58:*:3:3"]
+    rules = [
+        "*:-2.58: -3:-3",
+        "-2.58:-1.96:-2:-2",
+        "-1.96:-1.65:-1:-1",
+        "-1.65:1.65:0:0",
+        "1.65:1.96:1:1",
+        "1.96:2.58:2:2",
+        "2.58:*:3:3",
+    ]
 
     gs.run_command(
         "r.neighbors", input=elev, output="smooth", method="average", flags="c", env=env
@@ -45,8 +47,14 @@ def run_significantValues(elev, env, **kwargs):
     gs.mapcalc(f"out = (smooth - {mean}) / {sd}", env=env)
 
     # Recode out raster with significance bins
-    gs.write_command("r.recode", input="out", output="out", rules="-", stdin="\n".join(rules), env=env)
-
+    gs.write_command(
+        "r.recode",
+        input="out",
+        output="out",
+        rules="-",
+        stdin="\n".join(rules),
+        env=env,
+    )
 
     # Change colors for high and low maps
     gs.run_command("r.colors", map="out", color="elevation", env=env)
@@ -70,4 +78,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
