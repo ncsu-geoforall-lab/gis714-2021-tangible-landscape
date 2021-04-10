@@ -15,11 +15,22 @@ Instructions
   need to be passed env parameter (..., env=env)
 """
 
+#!/usr/bin/env python3
+
 import grass.script as gs
 
 
 # Function to show significantly high and low pixels
 def run_significantValues(elev, env, **kwargs):
+    # Create rules for r.recode
+    rules = ["*-2.58: -3:-3",
+            "-2.57999:-1.96:-2:-2",
+            "-1.95999:-1.65:-1:-1",
+            "-1.64999:1.65:0:0",
+            "1.651:1.96:1:1",
+            "1.961:2.58:2:2",
+            "2.581*:3:3"]
+
     gs.run_command(
         "r.neighbors", input=elev, output="smooth", method="average", flags="c", env=env
     )
@@ -33,11 +44,9 @@ def run_significantValues(elev, env, **kwargs):
     # Using map algebra create a new raster map of z-scores
     gs.mapcalc(f"out = (smooth - {mean}) / {sd}", env=env)
 
-    # Using map algebra create a new raster map of highest and lowest pixel values versus all others
-    gs.mapcalc(
-        f"out = if(out < -2.58, -3, if(out >= -2.58 & out < -1.96, -2, if(out >= -1.96 & out < -1.65, -1, if(out >= -1.65 & out <= 1.65, 0, if(out > 1.65 & out < 1.96, 1, if(out > 1.96 & out <= 2.58, 2, if(out > 2.58, 3, null())))))))",
-        env=env,
-    )
+    # Recode out raster with significance bins
+    gs.write_command("r.recode", input="out", output="out", rules="-", stdin="\n".join(rules), env=env)
+
 
     # Change colors for high and low maps
     gs.run_command("r.colors", map="out", color="elevation", env=env)
@@ -61,3 +70,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
