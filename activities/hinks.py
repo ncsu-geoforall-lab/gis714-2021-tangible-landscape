@@ -16,7 +16,7 @@ import grass.script as gs
 
 
 def run_ponds(scanned_elev, env, **kwargs):
-    repeat = 20
+    repeat = 3
     input_dem = scanned_elev
     output = "tmp_filldir"
     for i in range(repeat):
