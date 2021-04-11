@@ -17,6 +17,7 @@ Instructions
 
 import grass.script as gs
 
+
 def run_ponds(scanned_elev, env, **kwargs):
     repeat = 20
     input_dem = scanned_elev
@@ -30,12 +31,14 @@ def run_ponds(scanned_elev, env, **kwargs):
     gs.write_command('r.colors', map='ponds', rules='-', stdin='0% aqua\n100% blue', env=env)
 # this part is for testing without TL
 
+
 def run_waterflow(scanned_elev, env, **kwargs):
     # first we need to compute x- and y-derivatives
     gs.run_command('r.slope.aspect', elevation=scanned_elev, dx='scan_dx', dy='scan_dy', env=env)
     gs.run_command('r.sim.water', elevation=scanned_elev, dx='scan_dx', dy='scan_dy',
                    rain_value=250, depth='flow', env=env)
 
+    
 def main():
     import os
 
@@ -52,17 +55,17 @@ def main():
     gs.run_command("g.copy", raster=[elev_resampled, "scan_saved"], env=env)
 
     # create points
-    points = "points"
     gs.write_command(
         "v.in.ascii",
         flags="t",
         input="-",
-        output=points,
         separator="comma",
         stdin="638432,220382\n638621,220607",
         env=env,
     )
-    # run_ponds(scanned_elev=elev_resampled, env=env, points=points)
+    
+    # Test functions
+    run_ponds(scanned_elev=elev_resampled, env=env, points=points)
     run_waterflow(scanned_elev=elev_resampled, env=env, points=points)
 
 
