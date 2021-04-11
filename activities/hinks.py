@@ -31,12 +31,14 @@ def run_ponds(scanned_elev, env, **kwargs):
     gs.write_command('r.colors', map='ponds', rules='-', stdin='0% aqua\n100% blue', env=env)
 # this part is for testing without TL
 
+
 def run_waterflow(scanned_elev, env, **kwargs):
     # first we need to compute x- and y-derivatives
     gs.run_command('r.slope.aspect', elevation=scanned_elev, dx='scan_dx', dy='scan_dy', env=env)
     gs.run_command('r.sim.water', elevation=scanned_elev, dx='scan_dx', dy='scan_dy',
                    rain_value=250, depth='flow', env=env)
 
+    
 def main():
     import os
 
@@ -44,9 +46,10 @@ def main():
     env = os.environ.copy()
     # we want to run this repetetively without deleted the created files
     env["GRASS_OVERWRITE"] = "1"
-
+    
     elevation = "elev_lid792_1m"
     elev_resampled = "elev_resampled"
+    
     # resampling to have similar resolution as with TL
     gs.run_command("g.region", raster=elevation, res=4, flags="a", env=env)
     gs.run_command("r.resamp.stats", input=elevation, output=elev_resampled, env=env)
