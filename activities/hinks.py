@@ -21,46 +21,37 @@ def run_ponds(scanned_elev, env, **kwargs):
     output = "tmp_filldir"
     for i in range(repeat):
         gs.run_command(
-          'r.fill.dir', 
-          input=input_dem, 
-          output=output, 
-          direction="tmp_dir", 
-          env=env
+            "r.fill.dir", input=input_dem, output=output, direction="tmp_dir", env=env
         )
         input_dem = output
     # filter depression deeper than 0.1 m to
-    gs.mapcalc('{new} = if({out} - {scan} > 0.1, {out} - {scan}, null())'.format(
-                                                                                 new='ponds', 
-                                                                                 out=output,
-                                                                                 scan=scanned_elev
-                                                                                ), env=env)
-    gs.write_command(
-      'r.colors', 
-      map='ponds', 
-      rules='-', 
-      stdin='0% aqua\n100% blue', 
-      env=env
+    gs.mapcalc(
+        "{new} = if({out} - {scan} > 0.1, {out} - {scan}, null())".format(
+            new="ponds", out=output, scan=scanned_elev
+        ),
+        env=env,
     )
+    gs.write_command(
+        "r.colors", map="ponds", rules="-", stdin="0% aqua\n100% blue", env=env
+    )
+
+
 # this part is for testing without TL
 
 
 def run_waterflow(scanned_elev, env, **kwargs):
     # first we need to compute x- and y-derivatives
     gs.run_command(
-      'r.slope.aspect', 
-      elevation=scanned_elev, 
-      dx='scan_dx', 
-      dy='scan_dy', 
-      env=env
+        "r.slope.aspect", elevation=scanned_elev, dx="scan_dx", dy="scan_dy", env=env
     )
     gs.run_command(
-      'r.sim.water', 
-      elevation=scanned_elev, 
-      dx='scan_dx', 
-      dy='scan_dy',
-      rain_value=250, 
-      depth='flow', 
-      env=env
+        "r.sim.water",
+        elevation=scanned_elev,
+        dx="scan_dx",
+        dy="scan_dy",
+        rain_value=250,
+        depth="flow",
+        env=env,
     )
 
 
@@ -81,14 +72,8 @@ def main():
     gs.run_command("g.copy", raster=[elev_resampled, "scan_saved"], env=env)
 
     # Test functions
-    run_ponds(
-      scanned_elev=elev_resampled, 
-      env=env
-    )
-    run_waterflow(
-      scanned_elev=elev_resampled, 
-      env=env
-    )
+    run_ponds(scanned_elev=elev_resampled, env=env)
+    run_waterflow(scanned_elev=elev_resampled, env=env)
 
 
 if __name__ == "__main__":
