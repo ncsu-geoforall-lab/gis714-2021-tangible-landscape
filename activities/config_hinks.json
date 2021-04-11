@@ -3,7 +3,7 @@
       {
       "layers": [
         [
-          "d.rast", "map=flow"
+          "d.rast", "map=flow", "map=ponds"
         ]
       ],
       "base": "elev_lid792_1m",
