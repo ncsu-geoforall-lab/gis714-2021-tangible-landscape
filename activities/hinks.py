@@ -65,8 +65,8 @@ def main():
     )
     
     # Test functions
-    run_ponds(scanned_elev=elev_resampled, env=env, points=points)
-    run_waterflow(scanned_elev=elev_resampled, env=env, points=points)
+    run_ponds(scanned_elev=elev_resampled, env=env)
+    run_waterflow(scanned_elev=elev_resampled, env=env)
 
 
 if __name__ == "__main__":
