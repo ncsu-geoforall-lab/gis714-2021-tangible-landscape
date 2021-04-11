@@ -2,15 +2,12 @@
 
 """
 Instructions
-
 - Functions intended to run for each scan
   need to be named run_xxxxx
-
 - Do not modify the parameters of the run_xxx function
   unless you know what you are doing
   see optional parameters:
   https://github.com/tangible-landscape/grass-tangible-landscape/wiki/Running-analyses-and-developing-workflows#python-workflows
-
 - All gs.run_command/read_command/write_command/parse_command
   need to be passed env parameter (..., env=env)
 """
