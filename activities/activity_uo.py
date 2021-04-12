@@ -16,7 +16,6 @@ Instructions
 """
 
 import grass.script as gs
-    
 
 def run_LCP(scanned_elev, env, points=None, **kwargs):
     if not points: #begin run_function_with_points()
