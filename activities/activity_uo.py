@@ -13,8 +13,6 @@ Instructions
 
 - All gs.run_command/read_command/write_command/parse_command
   need to be passed env parameter (..., env=env)
-  
-  This activity will calculate least cost path analysis with slope as cost.
 """
 
 import grass.script as gs
