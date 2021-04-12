@@ -19,7 +19,7 @@ import grass.script as gs
 
 
 def run_LCP(scanned_elev, env, points=None, **kwargs):
-    if not points: #begin run_function_with_points()
+    if not points:
         points = "points"
         import analyses
 
@@ -51,7 +51,7 @@ def run_LCP(scanned_elev, env, points=None, **kwargs):
     for point in data:
         point_list.append([float(p) for p in point.split(",")[:2]])
     start_coordinate = point_list[0]
-    end_coordinate = point_list[1] #end run_function_with_points()
+    end_coordinate = point_list[1]
 
     gs.run_command('r.slope.aspect', elevation=scanned_elev, slope='slope', env=env)
     gs.run_command('r.cost', input='slope', output='cost', start_coordinates=start_coordinate,
@@ -76,7 +76,7 @@ def main():
     gs.run_command("g.region", raster=elevation, res=4, flags="a", env=env)
     gs.run_command("r.resamp.stats", input=elevation, output=elev_resampled, env=env)
 
-    
+
     # create points
     points = "points"
     gs.write_command(
@@ -89,7 +89,7 @@ def main():
         env=env,
     )
     env = None
-    run_LCP(scanned_elev=elev_resampled,env=env,points=points)
+    run_LCP(scanned_elev=elev_resampled, env=env, points=points)
 
 
 if __name__ == "__main__":
