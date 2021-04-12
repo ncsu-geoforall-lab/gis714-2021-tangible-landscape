@@ -15,7 +15,6 @@ Instructions
   need to be passed env parameter (..., env=env)
 """
 
-#!/usr/bin/env python3
 
 import grass.script as gs
 
