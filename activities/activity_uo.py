@@ -54,12 +54,27 @@ def run_LCP(scanned_elev, env, points=None, **kwargs):
     start_coordinate = point_list[0]
     end_coordinate = point_list[1]
 
-    gs.run_command('r.slope.aspect', elevation=scanned_elev, slope='slope', env=env)
-    gs.run_command('r.cost', input='slope', output='cost', start_coordinates=start_coordinate,
-                   outdir='outdir', flags='k', env=env)
-    gs.run_command('r.colors', map='cost', color='gyr', env=env)
-    gs.run_command('r.drain', input='cost', output='drain', direction='outdir',
-                   drain='drain', flags='d', start_coordinates=end_coordinate, env=env)
+    gs.run_command("r.slope.aspect", elevation=scanned_elev, slope="slope", env=env)
+    gs.run_command(
+        "r.cost",
+        input="slope",
+        output="cost",
+        start_coordinates=start_coordinate,
+        outdir="outdir",
+        flags="k",
+        env=env,
+    )
+    gs.run_command("r.colors", map="cost", color="gyr", env=env)
+    gs.run_command(
+        "r.drain",
+        input="cost",
+        output="drain",
+        direction="outdir",
+        drain="drain",
+        flags="d",
+        start_coordinates=end_coordinate,
+        env=env,
+    )
 
 
 # this part is for testing without TL
