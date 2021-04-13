@@ -19,7 +19,7 @@ Instructions
 import grass.script as gs
 
 
-def run_summitFinder(geomorph, env, **kwargs):
+def run_summitFinder(scanned_elev, env, **kwargs):
     gs.run_command(
         "r.geomorphon",
         elevation=scanned_elev,
@@ -33,7 +33,7 @@ def run_summitFinder(geomorph, env, **kwargs):
     gs.mapcalc("'summits' = if(geomorph == 2, 1, null())", env=env)
     gs.run_command("r.thin", input="summits", output="summits_thinned", env=env)
     gs.run_command(
-        "r.to.vect", input=summits_thinned, output=summits, type=point, env=env
+        "r.to.vect", input="summits_thinned", output="summits", type="point", env=env
     )
 
 
