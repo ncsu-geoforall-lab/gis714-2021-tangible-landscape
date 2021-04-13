@@ -3,9 +3,6 @@
         {
         "layers": [
           [
-            "d.rast", "map=scanned_elev"
-          ],
-          [
             "d.vect", "map=contours", "color=77:77:77", "width=2"
           ],
           [
