@@ -103,7 +103,7 @@ def main():
         stdin="638432,220382\n638621,220607",
         env=env,
     )
-    run_LCP(scanned_elev=elev_resampled, env=None, points=points)
+    run_LCP(scanned_elev=elev_resampled, env=env, points=points)
 
 
 if __name__ == "__main__":
