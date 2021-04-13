@@ -1,0 +1,23 @@
+{
+    "tasks": [
+        {
+        "layers": [
+          [
+            "d.rast", "map=scanned_elev"
+          ],
+          [
+            "d.vect", "map=contours", "color=77:77:77", "width=2"
+          ],
+          [
+            "d.vect", "map=summits", "color=5:5:5", "width=5"
+          ]
+        ],
+        "base": "elev_lid792_1m",
+        "scanning_params": {"smooth": 10, "zexag": 2, "numscans": 1, "interpolate": true},
+        "calibrate": true,
+        "analyses": "activity_haedrich.py",
+        "title": "Summit Finder and contours"
+      }
+    ]
+  }
+  
