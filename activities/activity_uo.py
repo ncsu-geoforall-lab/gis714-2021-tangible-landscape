@@ -50,6 +50,7 @@ def run_LCP(scanned_elev, env, points=None, **kwargs):
     )
     for point in data:
         point_list.append([float(p) for p in point.split(",")[:2]])
+
     start_coordinate = point_list[0]
     end_coordinate = point_list[1]
 
@@ -87,8 +88,7 @@ def main():
         stdin="638432,220382\n638621,220607",
         env=env,
     )
-    env = None
-    run_LCP(scanned_elev=elev_resampled, env=env, points=points)
+    run_LCP(scanned_elev=elev_resampled, env=None, points=points)
 
 
 if __name__ == "__main__":
