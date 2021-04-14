@@ -10,7 +10,7 @@ obj = TimezoneFinder()
 # and extract the shades cast by topography, using the time zone
 # of the surface location (based on NE corner)
 
-def radiance_now(scanned_elev, env, **kwargs):
+def run_radiance_now(scanned_elev, env, **kwargs):
 
     # Get the current day/time
     today = datetime.datetime.today()
