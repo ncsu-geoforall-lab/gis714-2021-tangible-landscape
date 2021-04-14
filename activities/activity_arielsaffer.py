@@ -1,5 +1,6 @@
-import grass.script as gs
 import datetime
+
+import grass.script as gs
 
 
 # compute solar irradiance (W/m2) for a given day and hour
