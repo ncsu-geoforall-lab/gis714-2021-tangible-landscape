@@ -28,7 +28,7 @@ def run_radiance_now(scanned_elev, env, **kwargs):
         # Extract day of year and hour
         day = maptime.timetuple().tm_yday
         current_time = maptime.hour
-    except Missing.Packages:
+    except Exception:
         # Get the current day/time
         today = datetime.datetime.today()
         day = today.timetuple().tm_yday
