@@ -3,9 +3,8 @@ import datetime
 
 
 # compute solar irradiance (W/m2) for a given day and hour
-# and extract the shades cast by topography, using the time zone
-# of the surface location (based on NE corner), if packages are
-# available (otherwise, current timezone is used)
+# using the time zone of the surface location (based on NE corner),
+# if packages are available (otherwise, current timezone is used)
 def run_radiance_now(scanned_elev, env, **kwargs):
     try:
         # you may need to install this package
@@ -28,13 +27,19 @@ def run_radiance_now(scanned_elev, env, **kwargs):
         maptime = today.astimezone(pytz.timezone(map_timezone))
         # Extract day of year and hour
         day = maptime.timetuple().tm_yday
-        current_time = maptime.hour
+        current_time = maptime.hour + maptime.minute / 60
+        print("Currently: " + str(current_time) + " hours, in Timezone " + map_timezone)
     except Exception:
         # Get the current day/time
         today = datetime.datetime.today()
         day = today.timetuple().tm_yday
-        current_time = today.hour
-        # precompute slope and aspect
+        current_time = today.hour + today.minute / 60
+        print(
+            "Timezone module unavailable, using local time ("
+            + str(current_time)
+            + " hours)"
+        )
+    # precompute slope and aspect
     gs.run_command(
         "r.slope.aspect",
         elevation=scanned_elev,
@@ -42,6 +47,7 @@ def run_radiance_now(scanned_elev, env, **kwargs):
         aspect="aspect",
         env=env,
     )
+    # compute solar irradiation at given date/time
     gs.run_command(
         "r.sun",
         elevation=scanned_elev,
@@ -52,9 +58,6 @@ def run_radiance_now(scanned_elev, env, **kwargs):
         time=current_time,
         env=env,
     )
-
-    # extract shade and set color to black and white
-    gs.mapcalc("shade = if(beam == 0, 0, 1)", env=env)
     gs.run_command("r.colors", map="beam", color="grey")
 
 
