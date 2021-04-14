@@ -6,6 +6,7 @@ import datetime
 # of the surface location (based on NE corner), if packages are
 # available (otherwise, current timezone is used)
 def run_radiance_now(scanned_elev, env, **kwargs):
+
     try:
         # you may need to install this package
         import pytz
