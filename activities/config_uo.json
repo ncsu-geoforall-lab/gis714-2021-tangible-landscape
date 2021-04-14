@@ -1,0 +1,23 @@
+{
+    "tasks": [
+        {
+        "layers": [
+          [
+            "d.rast", "map=slope"
+          ],
+          [
+            "d.vect", "map=contours", "color=77:77:77", "width=2"
+          ],
+          [
+            "d.vect", "map=drain", "color=250:110:199", "width=3"
+          ]
+        ],
+        "base": "elev_lid792_1m",
+        "scanning_params": {"smooth": 10, "zexag": 2, "numscans": 1, "interpolate": true},
+        "calibrate": true,
+        "analyses": "activity_uo.py",
+        "title": "Least Cost Path"
+      }
+    ]
+  }
+  
