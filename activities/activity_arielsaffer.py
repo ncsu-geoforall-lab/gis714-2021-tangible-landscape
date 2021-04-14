@@ -1,12 +1,12 @@
 import grass.script as gs
 import datetime
 
+
 # compute solar irradiance (W/m2) for a given day and hour
 # and extract the shades cast by topography, using the time zone
 # of the surface location (based on NE corner), if packages are
 # available (otherwise, current timezone is used)
 def run_radiance_now(scanned_elev, env, **kwargs):
-
     try:
         # you may need to install this package
         import pytz
