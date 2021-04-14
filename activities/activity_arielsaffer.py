@@ -50,7 +50,7 @@ def main():
     # resampling to have similar resolution as with TL
 
     gs.run_command("g.region", raster=elevation, res=4, flags="a", env=env)
-    radiance_now(scanned_elev=elevation, env=env)
+    run_radiance_now(scanned_elev=elevation, env=env)
 
 if __name__ == "__main__":
     main()
