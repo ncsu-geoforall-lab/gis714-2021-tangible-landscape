@@ -10,7 +10,6 @@ def run_radiance_now(scanned_elev, env, **kwargs):
     try:
         # you may need to install this package
         import pytz
-
         # you probably need to install this package
         from timezonefinder import TimezoneFinder
 
