@@ -8,9 +8,9 @@ import grass.script as gs
 # if packages are available (otherwise, current timezone is used)
 def run_radiance_now(scanned_elev, env, **kwargs):
     try:
-        # you may need to install this package
+        # you may need to install these packages
         import pytz
-        # you probably need to install this package
+
         from timezonefinder import TimezoneFinder
 
         obj = TimezoneFinder()
