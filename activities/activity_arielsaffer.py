@@ -28,7 +28,7 @@ def run_radiance_now(scanned_elev, env, **kwargs):
         day = maptime.timetuple().tm_yday
         current_time = maptime.hour + maptime.minute / 60
         print("Currently: " + str(current_time) + " hours, in Timezone " + map_timezone)
-    except Exception:
+    except ImportError:
         # Get the current day/time
         today = datetime.datetime.today()
         day = today.timetuple().tm_yday
