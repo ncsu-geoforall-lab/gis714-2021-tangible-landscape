@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-This function visualizes differences in a file that has been resampled to a coarse resolution using two different resample interpolation methods: nearest neighbor and bilinear.
+Comparing two different resample interpolation methods: nearest neighbor and bilinear.
 """
 import grass.script as gs
 
