@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Comparing spatial distribution of differences for resampling methods: average & median.
+Comparing differences for resampling methods: average & median.
 """
 import grass.script as gs
 
@@ -46,4 +46,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
