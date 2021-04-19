@@ -1,34 +1,33 @@
 #!/usr/bin/env python3
 
 """
-Comparing two different resample interpolation methods: nearest neighbor and bilinear.
+Comparing spatial distribution of differences for resampling methods: average & median.
 """
 import grass.script as gs
 
-
 def run_resamplediffs(scanned_elev, env, **kwargs):
+    gs.run_command("g.region", res=12, flags="a", env=env)
     gs.run_command(
-        "r.resamp.interp",
-        input="elevation",
-        output="elev_4nn",
-        method="nearest",
+        "r.resamp.stats",
+        input=scanned_elev,
+        output="elev_avg",
+        method="average",
         overwrite=True,
-    )
+    env=env)
     gs.run_command(
-        "r.resamp.interp",
-        input="elevation",
-        output="elev_4bi",
-        method="bilinear",
+        "r.resamp.stats",
+        input=scanned_elev,
+        output="elev_med",
+        method="median",
         overwrite=True,
-    )
-    gs.mapcalc("elev_diff=elev_4nn - elev_4bi", env=env, overwrite=True)
-    gs.run_command("r.colors.stddev", map="elev_diff", env=env)
+    env=env)
+    gs.mapcalc("elev_diff=abs(elev_avg - elev_med)", env=env, overwrite=True)
+    gs.run_command("r.colors", map="elev_diff", color='reds',env=env)
 
 
 # this part is for testing without TL
 def main():
     import os
-
     # get the current environment variables as a copy
     env = os.environ.copy()
     # we want to run this repetetively without deleted the created files
@@ -38,7 +37,7 @@ def main():
     # resampling to have similar resolution as with TL
     gs.run_command("g.region", raster=elevation, res=4, flags="a", env=env)
     gs.run_command("r.resamp.stats", input=elevation, output=elev_resampled, env=env)
-    run_resamplediffs(scanned_elev=elevation, env=env)
+    run_resamplediffs(scanned_elev=elev_resampled, env=env)
 
 
 if __name__ == "__main__":
