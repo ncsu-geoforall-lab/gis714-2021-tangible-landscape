@@ -5,6 +5,7 @@ Comparing spatial distribution of differences for resampling methods: average & 
 """
 import grass.script as gs
 
+
 def run_resamplediffs(scanned_elev, env, **kwargs):
     gs.run_command("g.region", res=12, flags="a", env=env)
     gs.run_command(
@@ -13,21 +14,24 @@ def run_resamplediffs(scanned_elev, env, **kwargs):
         output="elev_avg",
         method="average",
         overwrite=True,
-    env=env)
+        env=env,
+    )
     gs.run_command(
         "r.resamp.stats",
         input=scanned_elev,
         output="elev_med",
         method="median",
         overwrite=True,
-    env=env)
+        env=env,
+    )
     gs.mapcalc("elev_diff=abs(elev_avg - elev_med)", env=env, overwrite=True)
-    gs.run_command("r.colors", map="elev_diff", color='reds',env=env)
+    gs.run_command("r.colors", map="elev_diff", color="reds", env=env)
 
 
 # this part is for testing without TL
 def main():
     import os
+
     # get the current environment variables as a copy
     env = os.environ.copy()
     # we want to run this repetetively without deleted the created files
@@ -42,3 +46,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
