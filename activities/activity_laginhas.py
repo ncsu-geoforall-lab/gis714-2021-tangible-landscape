@@ -7,25 +7,26 @@ import grass.script as gs
 
 
 def run_resamplediffs(scanned_elev, env, **kwargs):
-    gs.run_command("g.region", res=12, flags="a", env=env)
+    raster_region = gs.region(env=env)
+    res = (raster_region["nsres"] + raster_region["ewres"]) / 2
+    env2 = env.copy()
+    env2["GRASS_REGION"] = gs.region_env(res=res * 3)
     gs.run_command(
         "r.resamp.stats",
         input=scanned_elev,
         output="elev_avg",
         method="average",
-        overwrite=True,
-        env=env,
+        env=env2,
     )
     gs.run_command(
         "r.resamp.stats",
         input=scanned_elev,
         output="elev_med",
         method="median",
-        overwrite=True,
-        env=env,
+        env=env2,
     )
-    gs.mapcalc("elev_diff=abs(elev_avg - elev_med)", env=env, overwrite=True)
-    gs.run_command("r.colors", map="elev_diff", color="reds", env=env)
+    gs.mapcalc("elev_diff=abs(elev_avg - elev_med)", env=env2)
+    gs.run_command("r.colors", map="elev_diff", color="reds", env=env2)
 
 
 # this part is for testing without TL
@@ -46,3 +47,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
