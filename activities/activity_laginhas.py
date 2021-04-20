@@ -7,7 +7,7 @@ import grass.script as gs
 
 
 def run_resamplediffs(scanned_elev, env, **kwargs):
-    raster_region = gs.region(env=env)
+    raster_region = gs.raster_info(scanned_elev)
     res = (raster_region["nsres"] + raster_region["ewres"]) / 2
     env2 = env.copy()
     env2["GRASS_REGION"] = gs.region_env(res=res * 3)
@@ -47,3 +47,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
