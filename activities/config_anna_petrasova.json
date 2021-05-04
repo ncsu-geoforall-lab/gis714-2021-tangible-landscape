@@ -14,7 +14,7 @@
       "calibration_scanning_params": {"smooth": 10, "numscans": 1, "interpolate": true},
       "calibrate": true,
       "analyses": "activity_anna_petrasova.py",
-      "title": "Flow tracing (Anna P)"
+      "title": "Flow tracing"
     }
   ]
 }

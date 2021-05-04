@@ -17,6 +17,16 @@ Instructions
 
 import grass.script as gs
 
+def run_contours(scanned_elev, env, **kwargs):
+    interval = 5
+    gs.run_command(
+        "r.contour",
+        input=scanned_elev,
+        output="contours",
+        step=interval,
+        flags="t",
+        env=env,
+    )
 
 def run_LCP(scanned_elev, env, points=None, **kwargs):
     if not points:
@@ -27,10 +37,10 @@ def run_LCP(scanned_elev, env, points=None, **kwargs):
             "scan_saved",
             scanned_elev,
             points,
-            height_threshold=[10, 100],
-            cells_threshold=[5, 50],
+            height_threshold=[6, 100],
+            cells_threshold=[5, 100],
             add=True,
-            max_detected=5,
+            max_detected=2,
             debug=True,
             env=env,
         )
@@ -51,6 +61,8 @@ def run_LCP(scanned_elev, env, points=None, **kwargs):
     for point in data:
         point_list.append([float(p) for p in point.split(",")[:2]])
 
+    if len(point_list) < 2:
+        return
     start_coordinate = point_list[0]
     end_coordinate = point_list[1]
 
