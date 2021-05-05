@@ -17,6 +17,7 @@ Instructions
 
 import grass.script as gs
 
+
 def run_contours(scanned_elev, env, **kwargs):
     interval = 5
     gs.run_command(
@@ -27,6 +28,7 @@ def run_contours(scanned_elev, env, **kwargs):
         flags="t",
         env=env,
     )
+
 
 def run_LCP(scanned_elev, env, points=None, **kwargs):
     if not points:

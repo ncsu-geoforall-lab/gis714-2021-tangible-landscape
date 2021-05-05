@@ -21,7 +21,12 @@ import grass.script as gs
 # Function to show significantly high and low pixels
 def run_significantValues(scanned_elev, env, **kwargs):
     gs.run_command(
-        "r.neighbors", input=scanned_elev, output="smooth", method="average", flags="c", env=env
+        "r.neighbors",
+        input=scanned_elev,
+        output="smooth",
+        method="average",
+        flags="c",
+        env=env,
     )
     # Calculate univariate statistics
     stats = gs.parse_command("r.univar", map="smooth", flags="g", env=env)
