@@ -3,10 +3,10 @@
       {
       "layers": [
         [
-          "d.rast", "smooth"
+          "d.rast", "map=smooth"
         ],
         [
-          "d.rast", "out"
+          "d.rast", "map=out"
         ]
       ],
       "base": "elev_lid792_1m",

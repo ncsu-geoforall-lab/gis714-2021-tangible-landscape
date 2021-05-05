@@ -13,6 +13,7 @@ def run_topo_par(scanned_elev, env, **kwargs):
         input=scanned_elev,
         output="feat_verticalcurv",
         method="profc",
+        size=11,
         env=env,
     )
 
